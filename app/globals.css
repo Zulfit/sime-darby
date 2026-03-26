@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "aos/dist/aos.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -46,42 +47,6 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
-}
-
-.navbar-fixed-top {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1030;
-  background-color: transparent;
-}
-
-#main-navbar {
-  display: flex;
-  align-items: stretch;
-  min-height: 64px;
-  line-height: 64px;
-  transition: var(--transition-2);
-  background: linear-gradient(to top, transparent, #141414c2);
-}
-
-#main-navbar .left-nav {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-}
-
-#main-navbar .right-nav {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-}
-
-#main-navbar .center-nav {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 :root {
@@ -163,4 +128,22 @@
   html {
     @apply font-sans;
   }
+}
+
+.btn-search-sm {
+  background: linear-gradient(45deg, #cc0009 56%, #ff4b00, #ff7900);
+  color: #eaeaea;
+  width: 47px;
+  height: 32px;
+  border-radius: 40px;
+  border: none;
+}
+
+.btn-search-md {
+  background: linear-gradient(45deg, #cc0009 56%, #ff4b00, #ff7900);
+  color: #eaeaea;
+  width: 73px;
+  height: 43px;
+  border-radius: 40px;
+  border: none;
 }

@@ -26,6 +26,7 @@ export default function Header() {
               alt="Logo"
               width={60}
               height={60}
+              style={{ width: "auto" }}
             />
           </a>
         </div>

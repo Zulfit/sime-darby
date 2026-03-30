@@ -38,7 +38,7 @@ const data = [
 ];
 
 export default function Business() {
-    const [active, setActive] = useState(5);
+    const [active, setActive] = useState(2);
 
     useEffect(() => {
         AOS.init({

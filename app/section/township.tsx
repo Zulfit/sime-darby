@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const items = [
   { id: 1, title: "Bandar Bukit Raja", img: "/images/township1.jpg" },
@@ -14,14 +15,20 @@ const items = [
   { id: 9, title: "Subang Jaya", img: "/images/township9.jpg" },
 ];
 
+const swipeConfidenceThreshold = 10000;
+const swipePower = (offset: number, velocity: number) => {
+  return Math.abs(offset) * velocity;
+};
+
 export default function Township() {
   const [active, setActive] = useState(2);
 
   const next = () => setActive((prev) => (prev + 1) % items.length);
   const prev = () =>
     setActive((prev) => (prev - 1 + items.length) % items.length);
+
   return (
-    <section className="w-full flex flex-col justify-center my-10 h-[600px]">
+    <section className="w-full flex flex-col justify-center my-10 h-[600px] overflow-hidden">
       <div className="w-full flex flex-col justify-center mt-10 gap-2">
         <h2
           className="text-[30px] text-center tracking-[1px] font-bold text-[#ea0009] aos-init aos-animate"
@@ -36,47 +43,76 @@ export default function Township() {
           Creating Thriving Communities
         </p>
       </div>
-      <div className="relative flex items-center justify-center h-full w-full">
-        {items.map((item, index) => {
-          //Calculate distance from active card (circular shortest path)
-          const n = items.length;
-          let offset = index - active;
-          if (offset > n / 2) offset -= n;
-          if (offset < -n / 2) offset += n;
-          
-          const absOffset = Math.abs(offset);
+      <div className="relative flex items-center justify-center h-full w-full" style={{ perspective: "1200px" }}>
+        <AnimatePresence initial={false}>
+          {items.map((item, index) => {
+            //Calculate distance from active card (circular shortest path)
+            const n = items.length;
+            let offset = index - active;
+            if (offset > n / 2) offset -= n;
+            if (offset < -n / 2) offset += n;
+            
+            const absOffset = Math.abs(offset);
 
-          // Bowl arc: center sits at the bottom (smallest), sides rise up and grow
-          const translateX = offset * 175;
-          const translateY = absOffset * -45;        // sides arc upward symmetrically
-          const scale = 0.75 + absOffset * 0.10;    // center=0.75, ±1=0.85, ±2=0.95, ±3=1.05
-          const rotateZ = offset * -6;               // cards tilt to follow the arc curve
+            // Bowl arc: center sits at the bottom (smallest), sides rise up and grow
+            const spacing = 300;
+            const translateX = offset * spacing;
+            const translateZ = -Math.abs(offset) * 100;       
+            const rotateY = offset * -25;
+            const translateY = Math.abs(offset) * -20;
+            const scale = offset === 0 ? 1 : 0.8;    // active = 1.0, others smaller
 
-          const zIndex = items.length - absOffset;
-          const opacity = absOffset > 3 ? 0 : 1;
+            const zIndex = items.length - absOffset;
+            const opacity = absOffset > 3 ? 0 : 1;
 
-          return (
-            <div
-              key={item.id}
-              className="absolute w-64 h-80 rounded-3xl transition-all duration-500 ease-in-out bg-cover bg-center shadow-2xl"
-              style={{
-                backgroundImage: `url(${item.img})`,
-                transform: `translateX(${translateX}px) translateY(${translateY}px) scale(${scale}) rotate(${rotateZ}deg)`,
-                zIndex: zIndex,
-                opacity: opacity,
-              }}
-            >
-                <div className="absolute bottom-6 w-full text-center text-white px-4">
-                    <h3 className="mb-2 text-lg font-bold">{item.title}</h3>
-                    <button className="btn-white text-red-600 px-4 py-2 rounded-full text-sm font-semibold bg-white">Learn More</button>
-                </div>
-            </div>
-          );
-        })}
+            return (
+              <motion.div
+                key={item.id}
+                className="absolute w-80 h-96 rounded-3xl bg-cover bg-center shadow-[0_15px_30px_rgba(0,0,0,0.3)] cursor-grab active:cursor-grabbing"
+                style={{
+                  backgroundImage: `url(${item.img})`,
+                  zIndex: zIndex,
+                  transformStyle: "preserve-3d",
+                }}
+                initial={false}
+                animate={{
+                  x: translateX,
+                  y: translateY,
+                  z: translateZ,
+                  scale: scale,
+                  rotateY: rotateY,
+                  opacity: opacity,
+                }}
+                transition={{
+                  type: "spring",
+                  stiffness: 300,
+                  damping: 30,
+                  mass: 1,
+                }}
+                drag="x"
+                dragConstraints={{ left: 0, right: 0 }}
+                dragElastic={0.2}
+                onDragEnd={(e, { offset, velocity }) => {
+                  const swipe = swipePower(offset.x, velocity.x);
+                  if (swipe < -swipeConfidenceThreshold) {
+                    next();
+                  } else if (swipe > swipeConfidenceThreshold) {
+                    prev();
+                  }
+                }}
+              >
+                  <div className="absolute bottom-6 w-full text-center text-white px-4">
+                      <h3 className="mb-2 text-lg font-bold drop-shadow-md">{item.title}</h3>
+                      <button className="text-red-600 px-5 py-2 rounded-full text-sm font-semibold bg-white hover:bg-gray-100 transition-colors shadow-lg">Learn More</button>
+                  </div>
+              </motion.div>
+            );
+          })}
+        </AnimatePresence>
       </div>
 
-      <button onClick={prev} className="absolute left-10 z-50 text-4xl text-red-600">{'<'}</button>
-      <button onClick={next} className="absolute right-10 z-50 text-4xl text-red-600">{'>'}</button>
+      <button onClick={prev} className="absolute left-10 z-50 text-4xl text-red-600 font-bold hover:scale-110 transition-transform">{'<'}</button>
+      <button onClick={next} className="absolute right-10 z-50 text-4xl text-red-600 font-bold hover:scale-110 transition-transform">{'>'}</button>
     </section>
   );
 }

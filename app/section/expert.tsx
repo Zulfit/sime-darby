@@ -9,6 +9,7 @@ export default function Expert() {
                         <button className="w-48 h-8 flex items-center justify-center text-[#ba0000] font-bold bg-white rounded-full py-6">Learn More</button>
                     </div>
                 </div>
+                <div className="absolute inset-x-0 bottom-0 bg-white h-[90px] rounded-t-[80%]"></div>
             </div>
         </section>
     );

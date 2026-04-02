@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import Header from "./header";
+import Footer from "./footer";
 
 const metropolis = localFont({
   src: [
@@ -117,7 +118,9 @@ export default function RootLayout({
       <body className="font-sans min-h-full flex flex-col">
         <Header />
         {children}
+        <Footer />
       </body>
+      
     </html>
   );
 }

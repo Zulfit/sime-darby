@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const items = [
   { id: 1, title: "Bandar Bukit Raja", img: "/images/township1.jpg" },
@@ -111,8 +112,12 @@ export default function Township() {
         </AnimatePresence>
       </div>
 
-      <button onClick={prev} className="absolute left-10 z-50 text-4xl text-red-600 font-bold hover:scale-110 transition-transform">{'<'}</button>
-      <button onClick={next} className="absolute right-10 z-50 text-4xl text-red-600 font-bold hover:scale-110 transition-transform">{'>'}</button>
+      <button onClick={prev} className="absolute left-10 z-50 w-12 h-12 flex items-center justify-center bg-white rounded-full shadow-[0_5px_15px_rgba(0,0,0,0.15)] text-[#ba0000] hover:scale-110 transition-transform cursor-pointer">
+        <ChevronLeft size={28} />
+      </button>
+      <button onClick={next} className="absolute right-10 z-50 w-12 h-12 flex items-center justify-center bg-white rounded-full shadow-[0_5px_15px_rgba(0,0,0,0.15)] text-[#ba0000] hover:scale-110 transition-transform cursor-pointer">
+        <ChevronRight size={28} />
+      </button>
     </section>
   );
 }

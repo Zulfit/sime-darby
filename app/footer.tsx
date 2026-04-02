@@ -16,10 +16,10 @@ export default function Footer() {
                         <div className="col w-full h-full">
                             <p className="uppercase text-white text-[12px] font-bold leading-[18px] mb-[5px]">Connect with us</p>
                             <ul className="flex flex-row gap-4">
-                                <li><a href="#"><img src="/images/facebook.png" className="w-10 h-10" /></a></li>
-                                <li><a href="#"><img src="/images/instagram.png" className="w-10 h-10" /></a></li>
-                                <li><a href="#"><img src="/images/twitter.png" className="w-10 h-10" /></a></li>
-                                <li><a href="#"><img src="/images/youtube.png" className="w-10 h-10" /></a></li>
+                                <li><a href="#"><img src="/images/footer/footer-fb.svg" className="w-10 h-10" /></a></li>
+                                <li><a href="#"><img src="/images/footer/footer-insta.svg" className="w-10 h-10" /></a></li>
+                                <li><a href="#"><img src="/images/footer/footer-tiktok.svg" className="w-10 h-10" /></a></li>
+                                <li><a href="#"><img src="/images/footer/footer-youtube.svg" className="w-10 h-10" /></a></li>
                             </ul>
                         </div>
                     </div>
